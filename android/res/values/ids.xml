@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+Google Play game services IDs.
+Save this file as res/values/games-ids.xml in your project.
+-->
+<resources>
+    <string name="app_id">878720844630</string>
+    <string name="package_name">cat.olivadevelop.atomicspacewar</string>
+    <string name="achievement_starter">CgkI1obgvskZEAIQAg</string>
+    <string name="achievement_mercilessly">CgkI1obgvskZEAIQAw</string>
+    <string name="achievement_there_is_no_fear">CgkI1obgvskZEAIQBA</string>
+    <string name="achievement_rise">CgkI1obgvskZEAIQBQ</string>
+    <string name="achievement_spiderman">CgkI1obgvskZEAIQBg</string>
+    <string name="leaderboard_leaderboard_highest">CgkI1obgvskZEAIQBw</string>
+</resources>

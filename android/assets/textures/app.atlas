@@ -1,0 +1,60 @@
+app.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+background
+  rotate: false
+  xy: 2, 2
+  size: 1280, 720
+  orig: 1280, 720
+  offset: 0, 0
+  index: -1
+black
+  rotate: false
+  xy: 804, 957
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+cloudy4
+  rotate: false
+  xy: 1435, 602
+  size: 283, 283
+  orig: 334, 311
+  offset: 17, 18
+  index: -1
+cloudy7
+  rotate: false
+  xy: 1284, 316
+  size: 284, 284
+  orig: 284, 284
+  offset: 0, 0
+  index: -1
+logo
+  rotate: false
+  xy: 2, 724
+  size: 800, 384
+  orig: 800, 384
+  offset: 0, 0
+  index: -1
+rings5
+  rotate: false
+  xy: 1284, 2
+  size: 448, 312
+  orig: 448, 312
+  offset: 0, 0
+  index: -1
+rock1
+  rotate: false
+  xy: 1570, 316
+  size: 283, 283
+  orig: 310, 283
+  offset: 17, 0
+  index: -1
+title
+  rotate: false
+  xy: 804, 724
+  size: 629, 231
+  orig: 640, 236
+  offset: 6, 3
+  index: -1
