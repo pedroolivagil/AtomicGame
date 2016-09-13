@@ -5,7 +5,6 @@ import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
@@ -90,7 +89,6 @@ public class GameScreen extends GeneralScreen {
         getStage().draw();
         // Overlaps
         overlapsAll();
-
     }
 
     private void checkGamePad() {
@@ -160,7 +158,7 @@ public class GameScreen extends GeneralScreen {
     @Override
     public boolean axisMoved(Controller controller, int axisCode, float value) {
         if (axisCode == getGame().getBtnsPad().getKeys("AXIS_LEFT_X")) {
-            player.dirX =  value;
+            player.dirX = value;
         } else if (axisCode == getGame().getBtnsPad().getKeys("AXIS_LEFT_Y")) {
             player.dirY = -value;
         }

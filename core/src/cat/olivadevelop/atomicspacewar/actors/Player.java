@@ -51,7 +51,8 @@ public class Player extends GameActor {
     }
 
     public void moveAction(float delta){
-        addAction(Actions.rotateTo(calcDegree(getX() + dirX * getSpeed() * delta, getY() + dirY * getSpeed() * delta), 0f));
+        //addAction(Actions.rotateTo(calcDegree(getX() + dirX * getSpeed() * delta, getY() + dirY * getSpeed() * delta), 0f));
+        setRotation(calcDegree(getX() + dirX * getSpeed() * delta, getY() + dirY * getSpeed() * delta));
     }
 
     private float calcDegree(float newX, float newY) {
