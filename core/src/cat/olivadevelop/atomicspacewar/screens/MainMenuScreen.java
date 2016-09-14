@@ -56,8 +56,8 @@ public class MainMenuScreen extends GeneralScreen {
         p_ring = new ImageGame(getApp_asset("rings5"));
         p_ring.setPosition(900, 500);
 
-        btnStart = new ButtonGame(getString("mainMenuStart"), .9f);
-        btnExit = new ButtonGame(getString("mainMenuExit"), .9f);
+        btnStart = new ButtonGame(getString("mainMenuStart"), 1f).center();
+        btnExit = new ButtonGame(getString("mainMenuExit"), 1f);
 
         actions();
 

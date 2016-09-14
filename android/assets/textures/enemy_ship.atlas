@@ -142,6 +142,13 @@ X-256
   orig: 93, 84
   offset: 0, 0
   index: -1
+bullet
+  rotate: false
+  xy: 903, 79
+  size: 12, 94
+  orig: 12, 94
+  offset: 0, 0
+  index: -1
 playerShip1_blue
   rotate: false
   xy: 538, 2

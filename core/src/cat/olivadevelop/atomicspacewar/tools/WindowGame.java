@@ -14,7 +14,7 @@ public class WindowGame extends Window {
     GeneralScreen screen;
 
     public WindowGame(GeneralScreen screen, String title) {
-        super(title, GameLogic.getSkin());
+        super(title, GameLogic.getSkinL());
         this.screen = screen;
         config();
     }
@@ -33,7 +33,7 @@ public class WindowGame extends Window {
 
     private void config() {
         setWidth(650);
-        setHeight(250);
+        setHeight(200);
         setOrigin(getWidth() / 2, getHeight() / 2);
         setPosition(GameLogic.getScreenWidth() / 2 - getWidth() / 2, GameLogic.getScreenHeight() / 2 - getHeight() / 2);
         setVisible(false);
@@ -41,7 +41,7 @@ public class WindowGame extends Window {
         setMovable(false);
         setBackground(
                 new NinePatchDrawable(
-                        new NinePatch(getUi("glassPanel_corners"), 20, 20, 60, 20)
+                        new NinePatch(getUi("glassPanel_corners"), 15, 15, 60, 15)
                 )
         );
     }

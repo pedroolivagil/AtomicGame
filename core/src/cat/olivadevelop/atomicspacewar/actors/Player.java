@@ -1,24 +1,28 @@
 package cat.olivadevelop.atomicspacewar.actors;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
+import cat.olivadevelop.atomicspacewar.tools.ColorGame;
 import cat.olivadevelop.atomicspacewar.tools.GameActor;
+import cat.olivadevelop.atomicspacewar.tools.GeneralScreen;
 
 /**
  * Created by Oliva on 12/09/2016.
  */
 public class Player extends GameActor {
 
+    public final float SPEED_DEFAULT = 200;
+    private final GeneralScreen screen;
     public float dirX;
     public float dirY;
-    public final float SPEED_DEFAULT = 200;
     private float speed;
     private Vector2 previousPosition;
+    private Bullet bullet;
 
-    public Player(TextureRegion tRegion) {
+    public Player(GeneralScreen screen, TextureRegion tRegion) {
         super(tRegion);
+        this.screen = screen;
         dirX = 0;
         dirY = 0;
         setWidth(tRegion.getRegionWidth());
@@ -52,19 +56,12 @@ public class Player extends GameActor {
         setRotation(calcDegree(getX() + dirX * getSpeed() * delta, getY() + dirY * getSpeed() * delta));
     }
 
-    protected float calcDegree(float newX, float newY) {
-        double finalDeg = Math.atan2(newY - getY(), newX - getX());
-        finalDeg = (finalDeg * MathUtils.radiansToDegrees);
-        double degrees = finalDeg - 90;
-        return (float) degrees;
+    public float getSpeed() {
+        return speed;
     }
 
     public void setSpeed(float speed) {
         this.speed = speed;
-    }
-
-    public float getSpeed() {
-        return speed;
     }
 
     public void appear() {
@@ -78,7 +75,11 @@ public class Player extends GameActor {
         super.death();
     }
 
-    public Vector2 getPreviousPosition() {
-        return previousPosition;
+    @Override
+    public void shoot() {
+        super.shoot();
+        bullet = new Bullet(ColorGame.RED, getX() + getWidth() / 2, getY() + getHeight() / 2, getRotation(), dirX, dirY);
+        screen.getStage().addActor(bullet);
+        toFront();
     }
 }

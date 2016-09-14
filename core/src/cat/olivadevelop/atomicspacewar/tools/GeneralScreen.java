@@ -56,8 +56,8 @@ public class GeneralScreen implements Screen, ControllerListener, InputProcessor
         btnWndExitCancel = new ButtonGame(getString("no"));
 
         wndwExit = new WindowGame(this, getString("windowExitTitle"));
-        wndwExit.add(btnWndExitAccept).width(300).padLeft(25);
-        wndwExit.add(btnWndExitCancel).width(300);
+        wndwExit.add(btnWndExitAccept).width(300).padTop(50).padLeft(25);
+        wndwExit.add(btnWndExitCancel).width(300).padTop(50);
 
         black = new ImageGame(getApp_asset("black"));
         black.setPosition(0, 0);

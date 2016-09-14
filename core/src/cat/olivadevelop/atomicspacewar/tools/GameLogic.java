@@ -28,6 +28,8 @@ public abstract class GameLogic implements Disposable {
     public static final float VOLUME_10 = 1.0f;
     public static final float VOLUME_7 = .7f;
     public static final float VOLUME_5 = .5f;
+    public static final int tiledMapH = 12800;
+    public static final int tiledMapW = 12800;
     private static Preferences prefs;
     // Bundle
     private static I18NBundle bundle;
@@ -36,7 +38,8 @@ public abstract class GameLogic implements Disposable {
     private static int screenWidth;
     private static int screenHeight;
     // Skin
-    private static Skin skin;
+    private static Skin skinS;
+    private static Skin skinL;
     private static Skin skinXL;
     // Textures
     private static TextureAtlas app_asset;
@@ -44,8 +47,6 @@ public abstract class GameLogic implements Disposable {
     private static TextureAtlas players;
     private static TiledMap tiledMap;
     private static OrthogonalTiledMapRenderer tiledMapRenderer;
-    public static final int tiledMapH = 12800;
-    public static final int tiledMapW = 12800;
     // Sounds
     // Enviroments
 
@@ -72,8 +73,9 @@ public abstract class GameLogic implements Disposable {
         // Bundle
         bundle = I18NBundle.createBundle(Gdx.files.internal("i18n/MyBundle"), Locale.getDefault());
         // Skin
-        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        skinXL = new Skin(Gdx.files.internal("skin/xl/uiskin.json"));
+        skinS = new Skin(Gdx.files.internal("skin/S/uiskin.json"));
+        skinL = new Skin(Gdx.files.internal("skin/L/uiskin.json"));
+        skinXL = new Skin(Gdx.files.internal("skin/XL/uiskin.json"));
         app_asset = new TextureAtlas("textures/app.atlas");
 
 
@@ -189,8 +191,13 @@ public abstract class GameLogic implements Disposable {
     }
 
     // Textures
-    public static Skin getSkin() {
-        return skin;
+
+    public static Skin getSkinS() {
+        return skinS;
+    }
+
+    public static Skin getSkinL() {
+        return skinL;
     }
 
     public static Skin getSkinXL() {
@@ -297,8 +304,9 @@ public abstract class GameLogic implements Disposable {
 
     @Override
     public void dispose() {
-        skin.dispose();
+        skinL.dispose();
         skinXL.dispose();
+        skinS.dispose();
 
         ui.dispose();
         app_asset.dispose();

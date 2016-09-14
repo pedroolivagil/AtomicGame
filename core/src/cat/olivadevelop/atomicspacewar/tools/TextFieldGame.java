@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Align;
 public class TextFieldGame extends TextField {
 
     public TextFieldGame(String hint) {
-        super("", GameLogic.getSkin());
+        super("", GameLogic.getSkinL());
         this.setAlignment(Align.center);
         this.setMessageText(hint);
         this.setWidth(600);

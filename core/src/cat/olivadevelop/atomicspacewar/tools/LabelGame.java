@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
 
-import static cat.olivadevelop.atomicspacewar.tools.GameLogic.getSkin;
+import static cat.olivadevelop.atomicspacewar.tools.GameLogic.getSkinL;
 
 /**
  * Created by Oliva on 30/08/2015.
@@ -13,7 +13,7 @@ import static cat.olivadevelop.atomicspacewar.tools.GameLogic.getSkin;
 public class LabelGame extends Label {
 
     public LabelGame(CharSequence text) {
-        super(text, getSkin());
+        super(text, getSkinL());
         setFontScale(1f);
     }
 
@@ -28,12 +28,12 @@ public class LabelGame extends Label {
     }*/
 
     public LabelGame(CharSequence text, float scale) {
-        super(text, getSkin());
+        super(text, getSkinL());
         setFontScale(scale);
     }
 
     public LabelGame(CharSequence text, float scale, Color color) {
-        super(text, getSkin());
+        super(text, getSkinL());
         setFontScale(scale);
         setColor(color);
     }

@@ -18,7 +18,6 @@ import cat.olivadevelop.atomicspacewar.tools.IntersectorGame;
 import cat.olivadevelop.atomicspacewar.tools.Notification;
 
 import static cat.olivadevelop.atomicspacewar.tools.GameLogic.getPlayersTexture;
-import static cat.olivadevelop.atomicspacewar.tools.GameLogic.getScreenHeight;
 import static cat.olivadevelop.atomicspacewar.tools.GameLogic.getString;
 import static cat.olivadevelop.atomicspacewar.tools.GameLogic.getTiledMapRenderer;
 import static cat.olivadevelop.atomicspacewar.tools.GameLogic.tiledMapH;
@@ -29,13 +28,13 @@ import static cat.olivadevelop.atomicspacewar.tools.GameLogic.tiledMapW;
  */
 public class GameScreen extends GeneralScreen {
 
+    public static Player player;
+    public static HashMap<String, Player> otherPlayers = new HashMap<String, Player>();
     private boolean initPlayer;
     private boolean playerNotification;
     private Rectangle[] boundsRectangle;
     private Controller pad = null;
     private ShapeRenderer shape;
-    public static Player player;
-    public static HashMap<String, Player> otherPlayers = new HashMap<String, Player>();
 
     public GameScreen(AtomicSpaceWarGame game, boolean initPlayer, boolean playerNotification) {
         super(game);
@@ -48,7 +47,7 @@ public class GameScreen extends GeneralScreen {
                 new Rectangle(tiledMapW, 0, -tiledMapW, 1)
         };
         shape = new ShapeRenderer();
-        player = new Player(getPlayersTexture("playerShip3_blue"));
+        player = new Player(this, getPlayersTexture("playerShip3_blue"));
     }
 
 
@@ -58,6 +57,12 @@ public class GameScreen extends GeneralScreen {
         Controllers.addListener(this);
         Gdx.input.setInputProcessor(this);
         checkGamePad();
+        Notification n = new Notification(
+                GameScreen.otherPlayers.size() + " " + getString("quantPlayersCon"),
+                Notification.NotificationType.INFO,
+                5
+        );
+        getStage().addActor(n);
     }
 
     @Override
@@ -90,10 +95,10 @@ public class GameScreen extends GeneralScreen {
             initPlayer = false;
         }
         if (getGame().playerNotification) {
-            Notification n = new Notification(getString("newPlayerConn"),
+            Notification n = new Notification(
+                    getString("newPlayerConn"),
                     Notification.NotificationType.INFO,
-                    player.getX() - 200,
-                    player.getY()+getScreenHeight()/2-200
+                    5
             );
             getStage().addActor(n);
             getGame().playerNotification = false;
@@ -158,6 +163,7 @@ public class GameScreen extends GeneralScreen {
         if (buttonCode == getGame().getBtnsPad().getKeys("BUTTON_A")) {
             player.dirX = 0;
             player.dirY = 0;
+            player.shoot();
         }
         if (buttonCode == getGame().getBtnsPad().getKeys("BUTTON_LB")) {
             player.setSpeed(player.SPEED_DEFAULT);

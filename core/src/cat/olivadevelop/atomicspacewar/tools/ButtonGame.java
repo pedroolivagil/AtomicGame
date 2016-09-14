@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
 
-import static cat.olivadevelop.atomicspacewar.tools.GameLogic.getSkinXL;
+import static cat.olivadevelop.atomicspacewar.tools.GameLogic.getSkinL;
 import static cat.olivadevelop.atomicspacewar.tools.GameLogic.getUi;
 
 /**
@@ -30,12 +30,12 @@ public class ButtonGame extends Group {
     }
 
     private void create(String text) {
-        label = new Label(text.toUpperCase(), getSkinXL());
+        label = new Label(text.toUpperCase(), getSkinL());
         image = new Image(new NinePatchDrawable(new NinePatch(getUi("glassPanel_projection"), 5, 5, 10, 10)));
         image.setWidth(label.getWidth() + (label.getWidth() * .1f));
         image.setHeight(label.getHeight());
         setWidth(350);
-        setHeight(image.getHeight());
+        setHeight(20);
         addActors(new Actor[]{label, image});
     }
 
@@ -62,6 +62,12 @@ public class ButtonGame extends Group {
         super.setWidth(width * getScale());
         image.setWidth(width + (width * .1f));
         label.setX(image.getWidth() / 2 - label.getWidth() / 2);
+    }
+
+    @Override
+    public void setHeight(float height) {
+        super.setHeight(height * getScale());
+        label.setY(10);
     }
 
     public ButtonGame center() {

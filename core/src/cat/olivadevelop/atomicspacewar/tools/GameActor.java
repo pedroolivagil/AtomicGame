@@ -3,7 +3,7 @@ package cat.olivadevelop.atomicspacewar.tools;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Disposable;
@@ -67,8 +67,15 @@ public class GameActor extends ImageGame implements Disposable {
     public void drop() {
     }
 
+    protected float calcDegree(float newX, float newY) {
+        double finalDeg = Math.atan2(newY - getY(), newX - getX());
+        finalDeg = (finalDeg * MathUtils.radiansToDegrees);
+        double degrees = finalDeg - 90;
+        return (float) degrees;
+    }
+
     @Override
     public void dispose() {
-       // shape.dispose();
+        // shape.dispose();
     }
 }

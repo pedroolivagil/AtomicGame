@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import cat.olivadevelop.atomicspacewar.tools.GameLogic;
+import cat.olivadevelop.atomicspacewar.tools.GeneralScreen;
 
 import static cat.olivadevelop.atomicspacewar.tools.GameLogic.getPlayersTexture;
 
@@ -15,8 +16,8 @@ public class Bot extends Player {
     private int newX;
     private int newY;
 
-    public Bot() {
-        super(getPlayersTexture("playerShip1_green"));
+    public Bot(GeneralScreen screen) {
+        super(screen, getPlayersTexture("playerShip1_green"));
     }
 
     @Override

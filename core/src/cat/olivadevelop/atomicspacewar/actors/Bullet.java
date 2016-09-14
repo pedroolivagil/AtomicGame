@@ -1,0 +1,33 @@
+package cat.olivadevelop.atomicspacewar.actors;
+
+import com.badlogic.gdx.graphics.Color;
+
+import cat.olivadevelop.atomicspacewar.tools.GameActor;
+
+import static cat.olivadevelop.atomicspacewar.tools.GameLogic.getPlayersTexture;
+
+/**
+ * Created by Oliva on 14/09/2016.
+ */
+public class Bullet extends GameActor {
+
+    private final float dirY;
+    private final float dirX;
+    private float speed;
+
+    public Bullet(Color color, float x, float y, float angle, float dirX, float dirY) {
+        super(getPlayersTexture("bullet"));
+        setPosition(x, y);
+        setRotation(angle);
+        setColor(color);
+        speed = 200f;
+        this.dirX = dirX;
+        this.dirY = dirY;
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        moveBy(getX() + dirX * speed * delta, getY() + dirY * speed * delta);
+    }
+}

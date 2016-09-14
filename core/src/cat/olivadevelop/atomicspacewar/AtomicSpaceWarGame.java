@@ -26,16 +26,16 @@ import static cat.olivadevelop.atomicspacewar.tools.GameLogic.load;
 public class AtomicSpaceWarGame extends Game {
 
     private final float UPDATE_TIME = 1 / 60f;
+    public GeneralScreen _splashScreen;
+    public GeneralScreen _mainMenuScreen;
+    public GeneralScreen _gameScreen;
+    public boolean initPlayer = false;
+    public boolean playerNotification = false;
     float timer;
     private PlayServices playServices;
     private ToastAction toast;
     private Xbox btnsPad;
-    public GeneralScreen _splashScreen;
-    public GeneralScreen _mainMenuScreen;
-    public GeneralScreen _gameScreen;
     private Socket socket;
-    public boolean initPlayer = false;
-    public boolean playerNotification = false;
 
     public AtomicSpaceWarGame(PlayServices playServices, ToastAction toast, Xbox btnsPad) {
         this.playServices = playServices;
@@ -102,7 +102,7 @@ public class AtomicSpaceWarGame extends Game {
                     Gdx.app.log("SocketIO", "New Player connect: " + id);
                     //getToast().show(getString("newPlayerConn"));
                     playerNotification = true;
-                    GameScreen.otherPlayers.put(id, new Player(getPlayersTexture("playerShip2_red")));
+                    GameScreen.otherPlayers.put(id, new Player(_gameScreen, getPlayersTexture("playerShip2_red")));
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Gdx.app.log("SocketIO", "Error getting new playerID");
@@ -147,7 +147,7 @@ public class AtomicSpaceWarGame extends Game {
                 JSONArray objects = (JSONArray) args[0];
                 try {
                     for (int x = 0; x < objects.length(); x++) {
-                        Player p = new Player(getPlayersTexture("playerShip2_red"));
+                        Player p = new Player(_gameScreen, getPlayersTexture("playerShip2_red"));
                         p.setPosition(
                                 ((Double) objects.getJSONObject(x).getDouble("x")).floatValue(),
                                 ((Double) objects.getJSONObject(x).getDouble("y")).floatValue()
