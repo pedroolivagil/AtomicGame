@@ -1,5 +1,6 @@
 package cat.olivadevelop.atomicspacewar.actors;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
@@ -13,12 +14,14 @@ import cat.olivadevelop.atomicspacewar.tools.GeneralScreen;
 public class Player extends GameActor {
 
     public final float SPEED_DEFAULT = 200;
+    public final float SPEED_FAST = 400;
     private final GeneralScreen screen;
     public float dirX;
     public float dirY;
     private float speed;
     private Vector2 previousPosition;
     private Bullet bullet;
+    boolean moving;
 
     public Player(GeneralScreen screen, TextureRegion tRegion) {
         super(tRegion);
@@ -48,8 +51,19 @@ public class Player extends GameActor {
     }
 
     public void move(float delta) {
+        Gdx.app.log("dirX", dirX + "");
+        Gdx.app.log("dirY", dirY + "");
+        if ((dirX == (float) 0.000015258789 && dirY == (float) -0.007827878) ||
+                (dirX == (float) 0.0 && dirY == (float) -0.007827878)) {
+            dirX = 0;
+            dirY = 0;
+        }
         setPosition(getX() + dirX * getSpeed() * delta, getY() + dirY * getSpeed() * delta);
-        moveAction(delta);
+        if (dirX != 0.0 && dirY != 0.0) {
+            moveAction(delta);
+            moving = false;
+        }
+        moving = true;
     }
 
     public void moveAction(float delta) {
@@ -68,6 +82,7 @@ public class Player extends GameActor {
         //setPosition(MathUtils.random(0, tiledMapW), MathUtils.random(0, tiledMapH));
         setPosition(100, 100);
         alive = true;
+        moving = false;
     }
 
     @Override
@@ -81,5 +96,13 @@ public class Player extends GameActor {
         bullet = new Bullet(ColorGame.RED, getX() + getWidth() / 2, getY() + getHeight() / 2, getRotation(), dirX, dirY);
         screen.getStage().addActor(bullet);
         toFront();
+    }
+
+    public boolean isMoving() {
+        return moving;
+    }
+
+    public void setMoving(boolean moving) {
+        this.moving = moving;
     }
 }
