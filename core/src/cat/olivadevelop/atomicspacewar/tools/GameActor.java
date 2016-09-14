@@ -31,7 +31,6 @@ public class GameActor extends ImageGame implements Disposable {
         setOrigin(getWidth() / 2, getHeight() / 2);
         polygon = new Polygon(area);
         polygon.setOrigin(getWidth() / 2, getHeight() / 2);
-        alive = true;
         //shape = new ShapeRenderer();
     }
 
@@ -70,6 +69,6 @@ public class GameActor extends ImageGame implements Disposable {
 
     @Override
     public void dispose() {
-        //shape.dispose();
+       // shape.dispose();
     }
 }

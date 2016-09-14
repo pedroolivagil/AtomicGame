@@ -34,7 +34,8 @@ public class AtomicSpaceWarGame extends Game {
     public GeneralScreen _mainMenuScreen;
     public GeneralScreen _gameScreen;
     private Socket socket;
-    private boolean initPlayer = false;
+    public boolean initPlayer = false;
+    public boolean playerNotification = false;
 
     public AtomicSpaceWarGame(PlayServices playServices, ToastAction toast, Xbox btnsPad) {
         this.playServices = playServices;
@@ -52,7 +53,7 @@ public class AtomicSpaceWarGame extends Game {
         btnsPad.init();
         _splashScreen = new SplashScreen(this);
         _mainMenuScreen = new MainMenuScreen(this);
-        _gameScreen = new GameScreen(this, initPlayer);
+        _gameScreen = new GameScreen(this, initPlayer, playerNotification);
         setScreen(_splashScreen);
     }
 
@@ -65,6 +66,7 @@ public class AtomicSpaceWarGame extends Game {
     private void connectSocket() {
         try {
             socket = IO.socket("http://localhost:8080");
+            //socket = IO.socket("hl219.dinaserver.com:17605");
             socket.connect();
             Gdx.app.log("Socket", "OK");
         } catch (Exception e) {
@@ -98,6 +100,8 @@ public class AtomicSpaceWarGame extends Game {
                 try {
                     String id = data.getString("id");
                     Gdx.app.log("SocketIO", "New Player connect: " + id);
+                    //getToast().show(getString("newPlayerConn"));
+                    playerNotification = true;
                     GameScreen.otherPlayers.put(id, new Player(getPlayersTexture("playerShip2_red")));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -111,7 +115,7 @@ public class AtomicSpaceWarGame extends Game {
                 try {
                     String id = data.getString("id");
                     Gdx.app.log("SocketIO", "Player disconnect: " + id);
-                    GameScreen.otherPlayers.remove(id);
+                    GameScreen.otherPlayers.get(id).remove();
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Gdx.app.log("SocketIO", "Error getting new playerID");
@@ -126,10 +130,10 @@ public class AtomicSpaceWarGame extends Game {
                     String playerID = data.getString("id");
                     Double x = data.getDouble("x");
                     Double y = data.getDouble("y");
+                    Double angle = data.getDouble("angle");
                     if (GameScreen.otherPlayers.get(playerID) != null) {
-                        Gdx.app.log("SocketIO", "Player moved: " + playerID);
                         GameScreen.otherPlayers.get(playerID).setPosition(x.floatValue(), y.floatValue());
-                        GameScreen.otherPlayers.get(playerID).moveAction(Gdx.graphics.getDeltaTime());
+                        GameScreen.otherPlayers.get(playerID).setRotation(angle.floatValue());
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -163,6 +167,7 @@ public class AtomicSpaceWarGame extends Game {
             try {
                 data.put("x", GameScreen.player.getX());
                 data.put("y", GameScreen.player.getY());
+                data.put("angle", GameScreen.player.getRotation());
                 socket.emit("playerMoved", data);
             } catch (JSONException e) {
                 Gdx.app.log("SocketIO", "Error sending update data");

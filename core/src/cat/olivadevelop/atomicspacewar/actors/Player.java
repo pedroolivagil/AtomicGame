@@ -3,7 +3,6 @@ package cat.olivadevelop.atomicspacewar.actors;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import cat.olivadevelop.atomicspacewar.tools.GameActor;
 
@@ -33,7 +32,6 @@ public class Player extends GameActor {
     public void act(float delta) {
         super.act(delta);
         polygon.setPosition(getX(), getY());
-        move(delta);
     }
 
     public boolean hasMoved() {
@@ -50,12 +48,11 @@ public class Player extends GameActor {
         moveAction(delta);
     }
 
-    public void moveAction(float delta){
-        //addAction(Actions.rotateTo(calcDegree(getX() + dirX * getSpeed() * delta, getY() + dirY * getSpeed() * delta), 0f));
+    public void moveAction(float delta) {
         setRotation(calcDegree(getX() + dirX * getSpeed() * delta, getY() + dirY * getSpeed() * delta));
     }
 
-    private float calcDegree(float newX, float newY) {
+    protected float calcDegree(float newX, float newY) {
         double finalDeg = Math.atan2(newY - getY(), newX - getX());
         finalDeg = (finalDeg * MathUtils.radiansToDegrees);
         double degrees = finalDeg - 90;
@@ -73,6 +70,12 @@ public class Player extends GameActor {
     public void appear() {
         //setPosition(MathUtils.random(0, tiledMapW), MathUtils.random(0, tiledMapH));
         setPosition(100, 100);
+        alive = true;
+    }
+
+    @Override
+    public void death() {
+        super.death();
     }
 
     public Vector2 getPreviousPosition() {

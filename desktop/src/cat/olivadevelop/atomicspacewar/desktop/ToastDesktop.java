@@ -14,5 +14,6 @@ public class ToastDesktop implements ToastAction {
     @Override
     public void show(CharSequence text) {
         Gdx.app.log("PC Toast",text.toString());
+
     }
 }

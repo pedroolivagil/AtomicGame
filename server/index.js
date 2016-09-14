@@ -21,6 +21,7 @@ io.on('connection',function(socket){
 	        if(players[i].id == data.id){
                 players[i].x = data.x;
                 players[i].y = data.y;
+                players[i].angle = data.angle;
 	        }
 	    }
 	});
@@ -34,11 +35,12 @@ io.on('connection',function(socket){
 		    }
 		}
 	});
-	players.push(new player(socket.id, 0, 0));
+	players.push(new player(socket.id, 0, 0, 0));
 });
 
-function player(id, x, y){
+function player(id, x, y, angle){
     this.id = id;
     this.x = x;
     this.y = y;
+    this.angle = angle;
 }

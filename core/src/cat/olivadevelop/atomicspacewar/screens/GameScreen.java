@@ -15,8 +15,11 @@ import cat.olivadevelop.atomicspacewar.actors.Player;
 import cat.olivadevelop.atomicspacewar.tools.ColorGame;
 import cat.olivadevelop.atomicspacewar.tools.GeneralScreen;
 import cat.olivadevelop.atomicspacewar.tools.IntersectorGame;
+import cat.olivadevelop.atomicspacewar.tools.Notification;
 
 import static cat.olivadevelop.atomicspacewar.tools.GameLogic.getPlayersTexture;
+import static cat.olivadevelop.atomicspacewar.tools.GameLogic.getScreenHeight;
+import static cat.olivadevelop.atomicspacewar.tools.GameLogic.getString;
 import static cat.olivadevelop.atomicspacewar.tools.GameLogic.getTiledMapRenderer;
 import static cat.olivadevelop.atomicspacewar.tools.GameLogic.tiledMapH;
 import static cat.olivadevelop.atomicspacewar.tools.GameLogic.tiledMapW;
@@ -27,15 +30,17 @@ import static cat.olivadevelop.atomicspacewar.tools.GameLogic.tiledMapW;
 public class GameScreen extends GeneralScreen {
 
     private boolean initPlayer;
+    private boolean playerNotification;
     private Rectangle[] boundsRectangle;
     private Controller pad = null;
     private ShapeRenderer shape;
     public static Player player;
     public static HashMap<String, Player> otherPlayers = new HashMap<String, Player>();
 
-    public GameScreen(AtomicSpaceWarGame game, boolean initPlayer) {
+    public GameScreen(AtomicSpaceWarGame game, boolean initPlayer, boolean playerNotification) {
         super(game);
         this.initPlayer = initPlayer;
+        this.playerNotification = playerNotification;
         boundsRectangle = new Rectangle[]{
                 new Rectangle(0, 0, 1, tiledMapH),
                 new Rectangle(0, tiledMapH, tiledMapW, 1),
@@ -80,12 +85,22 @@ public class GameScreen extends GeneralScreen {
         for (HashMap.Entry<String, Player> entry : otherPlayers.entrySet()) {
             getStage().addActor(entry.getValue());
         }
-
         if (initPlayer) {
             getStage().addActor(player);
             initPlayer = false;
         }
-
+        if (getGame().playerNotification) {
+            Notification n = new Notification(getString("newPlayerConn"),
+                    Notification.NotificationType.INFO,
+                    player.getX() - 200,
+                    player.getY()+getScreenHeight()/2-200
+            );
+            getStage().addActor(n);
+            getGame().playerNotification = false;
+        }
+        if (player != null) {
+            player.move(delta);
+        }
         getStage().draw();
         // Overlaps
         overlapsAll();
@@ -133,9 +148,7 @@ public class GameScreen extends GeneralScreen {
     @Override
     public boolean buttonDown(Controller controller, int buttonCode) {
         if (buttonCode == getGame().getBtnsPad().getKeys("BUTTON_LB")) {
-            //jump
             player.setSpeed(500);
-
         }
         return false;
     }
@@ -143,12 +156,10 @@ public class GameScreen extends GeneralScreen {
     @Override
     public boolean buttonUp(Controller controller, int buttonCode) {
         if (buttonCode == getGame().getBtnsPad().getKeys("BUTTON_A")) {
-            //jump
             player.dirX = 0;
             player.dirY = 0;
         }
         if (buttonCode == getGame().getBtnsPad().getKeys("BUTTON_LB")) {
-            //jump
             player.setSpeed(player.SPEED_DEFAULT);
         }
 
@@ -162,8 +173,6 @@ public class GameScreen extends GeneralScreen {
         } else if (axisCode == getGame().getBtnsPad().getKeys("AXIS_LEFT_Y")) {
             player.dirY = -value;
         }
-        Gdx.app.log("Player rotation", player.getRotation() + "");
-
         return false;
     }
 }

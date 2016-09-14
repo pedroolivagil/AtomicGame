@@ -303,5 +303,7 @@ public abstract class GameLogic implements Disposable {
         ui.dispose();
         app_asset.dispose();
         players.dispose();
+        tiledMapRenderer.dispose();
+        tiledMap.dispose();
     }
 }
