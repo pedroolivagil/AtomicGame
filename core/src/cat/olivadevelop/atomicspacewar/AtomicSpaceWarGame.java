@@ -66,9 +66,13 @@ public class AtomicSpaceWarGame extends Game {
     private void connectSocket() {
         try {
             socket = IO.socket("http://localhost:8080");
-            //socket = IO.socket("hl219.dinaserver.com:17605");
+            //socket = IO.socket("hl219.dinaserver.com:8080");
             socket.connect();
-            Gdx.app.log("Socket", "OK");
+            if(socket.connected()) {
+                Gdx.app.log("Socket", "OK");
+            }else{
+                Gdx.app.log("Socket", "Fail");
+            }
         } catch (Exception e) {
             Gdx.app.log("Socket", "Error-> " + e);
         }
