@@ -3,6 +3,7 @@ package cat.olivadevelop.atomicspacewar.actors;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Timer;
 
 import cat.olivadevelop.atomicspacewar.tools.ColorGame;
 import cat.olivadevelop.atomicspacewar.tools.GameActor;
@@ -22,6 +23,7 @@ public class Player extends GameActor {
     private Vector2 previousPosition;
     private Bullet bullet;
     boolean moving;
+    boolean canShoot;
 
     public Player(GeneralScreen screen, TextureRegion tRegion) {
         super(tRegion);
@@ -33,6 +35,7 @@ public class Player extends GameActor {
         setSpeed(SPEED_DEFAULT);
         appear();
         previousPosition = new Vector2(getX(), getY());
+        canShoot = true;
     }
 
     @Override
@@ -51,19 +54,14 @@ public class Player extends GameActor {
     }
 
     public void move(float delta) {
-        Gdx.app.log("dirX", dirX + "");
-        Gdx.app.log("dirY", dirY + "");
-        if ((dirX == (float) 0.000015258789 && dirY == (float) -0.007827878) ||
-                (dirX == (float) 0.0 && dirY == (float) -0.007827878)) {
-            dirX = 0;
-            dirY = 0;
+        if ((dirX == (float) 0.000015258789 && dirY == (float) -0.007827878)) {
+            dirX = 0.0f;
+            dirY = 0.0f;
         }
         setPosition(getX() + dirX * getSpeed() * delta, getY() + dirY * getSpeed() * delta);
-        if (dirX != 0.0 && dirY != 0.0) {
+        if (!(dirX == 0.0 && dirY == 0.0)) {
             moveAction(delta);
-            moving = false;
         }
-        moving = true;
     }
 
     public void moveAction(float delta) {
@@ -93,16 +91,21 @@ public class Player extends GameActor {
     @Override
     public void shoot() {
         super.shoot();
-        bullet = new Bullet(ColorGame.RED, getX() + getWidth() / 2, getY() + getHeight() / 2, getRotation(), dirX, dirY);
-        screen.getStage().addActor(bullet);
-        toFront();
+        if (canShoot && (Math.abs(dirX * getSpeed() * Gdx.graphics.getDeltaTime()) > 0.7f && Math.abs(dirY * getSpeed() * Gdx.graphics.getDeltaTime()) > 0.7f)) {
+            canShoot = false;
+            bullet = new Bullet(ColorGame.RED, getX() + getWidth() / 2, getY() + getHeight() / 2, getRotation(), dirX, dirY);
+            screen.getStage().addActor(bullet);
+            toFront();
+            runTimer();
+        }
     }
 
-    public boolean isMoving() {
-        return moving;
-    }
-
-    public void setMoving(boolean moving) {
-        this.moving = moving;
+    public void runTimer() {
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                canShoot = true;
+            }
+        }, .2f);
     }
 }

@@ -106,12 +106,7 @@ public class GameScreen extends GeneralScreen {
         if (player != null) {
             player.move(delta);
         }
-        if (!player.hasMoved()) {
-            player.setMoving(false);
-        }
 
-        /*player.dirX = 0;
-        player.dirY = 1;*/
         getStage().draw();
         // Overlaps
         overlapsAll();
@@ -167,9 +162,9 @@ public class GameScreen extends GeneralScreen {
     @Override
     public boolean buttonUp(Controller controller, int buttonCode) {
         if (buttonCode == getGame().getBtnsPad().getKeys("BUTTON_A")) {
-            if (player.isMoving()) {
+            //if (player.isMoving()) {
                 player.shoot();
-            }
+            //}
         }
         if (buttonCode == getGame().getBtnsPad().getKeys("BUTTON_LB")) {
             player.setSpeed(player.SPEED_DEFAULT);

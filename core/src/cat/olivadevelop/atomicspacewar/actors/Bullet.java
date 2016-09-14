@@ -1,6 +1,5 @@
 package cat.olivadevelop.atomicspacewar.actors;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 
 import cat.olivadevelop.atomicspacewar.tools.GameActor;
@@ -18,10 +17,11 @@ public class Bullet extends GameActor {
 
     public Bullet(Color color, float x, float y, float angle, float dirX, float dirY) {
         super(getPlayersTexture("bullet"));
-        setPosition(x, y);
+        setPosition(x, y - getHeight()/2);
         setRotation(angle);
         setColor(color);
         speed = 600f;
+        setScale(.5f);
         this.dirX = dirX;
         this.dirY = dirY;
     }
