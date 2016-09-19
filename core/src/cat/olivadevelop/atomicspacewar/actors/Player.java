@@ -1,6 +1,5 @@
 package cat.olivadevelop.atomicspacewar.actors;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
@@ -45,6 +44,7 @@ public class Player extends GameActor {
     }
 
     public boolean hasMoved() {
+        //detect movement of other players
         if (previousPosition.x != getX() || previousPosition.y != getY()) {
             previousPosition.x = getX();
             previousPosition.y = getY();
@@ -62,6 +62,7 @@ public class Player extends GameActor {
         if (!(dirX == 0.0 && dirY == 0.0)) {
             moveAction(delta);
         }
+        //Gdx.app.log("Actor speed + direction", "Rot: " + getRotation() + "; RadiansX;" + dirX + "; RadiansY;" + dirY);
     }
 
     public void moveAction(float delta) {
@@ -91,12 +92,15 @@ public class Player extends GameActor {
     @Override
     public void shoot() {
         super.shoot();
-        if (canShoot && (Math.abs(dirX * getSpeed() * Gdx.graphics.getDeltaTime()) > 0.7f && Math.abs(dirY * getSpeed() * Gdx.graphics.getDeltaTime()) > 0.7f)) {
-            canShoot = false;
-            bullet = new Bullet(ColorGame.RED, getX() + getWidth() / 2, getY() + getHeight() / 2, getRotation(), dirX, dirY);
-            screen.getStage().addActor(bullet);
-            toFront();
-            runTimer();
+        if (canShoot) {
+            //if (Math.abs(dirX * getSpeed() * Gdx.graphics.getDeltaTime()) > 0.7f || Math.abs(dirY * getSpeed() * Gdx.graphics.getDeltaTime()) > 0.7f) {
+            //if () {
+                canShoot = false;
+                bullet = new Bullet(ColorGame.RED, getX() + getWidth() / 2, getY() + getHeight() / 2, getRotation(), dirX, dirY);
+                screen.getStage().addActor(bullet);
+                toFront();
+                runTimer();
+            //}
         }
     }
 
