@@ -7,10 +7,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import cat.olivadevelop.atomicspacewar.actors.Bullet;
 import cat.olivadevelop.atomicspacewar.actors.Player;
 import cat.olivadevelop.atomicspacewar.screens.GameScreen;
 import cat.olivadevelop.atomicspacewar.screens.MainMenuScreen;
 import cat.olivadevelop.atomicspacewar.screens.SplashScreen;
+import cat.olivadevelop.atomicspacewar.tools.ColorGame;
 import cat.olivadevelop.atomicspacewar.tools.GameLogic;
 import cat.olivadevelop.atomicspacewar.tools.GeneralScreen;
 import cat.olivadevelop.atomicspacewar.tools.PlayServices;
@@ -68,11 +70,6 @@ public class AtomicSpaceWarGame extends Game {
             socket = IO.socket("http://localhost:8080");
             //socket = IO.socket("hl219.dinaserver.com:8080");
             socket.connect();
-            if(socket.connected()) {
-                Gdx.app.log("Socket", "OK");
-            }else{
-                Gdx.app.log("Socket", "Fail");
-            }
         } catch (Exception e) {
             Gdx.app.log("Socket", "Error-> " + e);
         }
@@ -119,7 +116,9 @@ public class AtomicSpaceWarGame extends Game {
                 try {
                     String id = data.getString("id");
                     Gdx.app.log("SocketIO", "Player disconnect: " + id);
-                    GameScreen.otherPlayers.get(id).remove();
+                    if (GameScreen.otherPlayers.get(id) != null) {
+                        GameScreen.otherPlayers.get(id).remove();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Gdx.app.log("SocketIO", "Error getting new playerID");
@@ -144,6 +143,30 @@ public class AtomicSpaceWarGame extends Game {
                     Gdx.app.log("SocketIO", "Error getting playerID; moved");
                 }
             }
+        }).on("playerShoot", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                /* Movemos los actores de otros players cuando se detecte movimiento */
+                JSONObject data = (JSONObject) args[0];
+                try {
+                    String playerID = data.getString("id");
+                    GameScreen.otherBulletPlayers.put(
+                            playerID, new Bullet(
+                                    _gameScreen,
+                                    ColorGame.valueOf(data.getString("x")),
+                                    ((Double) data.getDouble("x")).floatValue(),
+                                    ((Double) data.getDouble("y")).floatValue(),
+                                    ((Double) data.getDouble("angle")).floatValue(),
+                                    ((Double) data.getDouble("dirX")).floatValue(),
+                                    ((Double) data.getDouble("dirY")).floatValue()
+                            )
+                    );
+                    Gdx.app.log("Bullet", "ADD");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Gdx.app.log("SocketIO", "Error getting playerID; moved");
+                }
+            }
         }).on("getPlayers", new Emitter.Listener() {
             /* Posicionamos los actores de otros players */
             @Override
@@ -157,6 +180,27 @@ public class AtomicSpaceWarGame extends Game {
                                 ((Double) objects.getJSONObject(x).getDouble("y")).floatValue()
                         );
                         GameScreen.otherPlayers.put(objects.getJSONObject(x).getString("id"), p);
+                    }
+                } catch (JSONException e) {
+                }
+            }
+        }).on("getBullets", new Emitter.Listener() {
+            /* Posicionamos los bullets de otros players */
+            @Override
+            public void call(Object... args) {
+                JSONArray objects = (JSONArray) args[0];
+                try {
+                    for (int x = 0; x < objects.length(); x++) {
+                        Bullet b = new Bullet(_gameScreen,
+                                ColorGame.valueOf(objects.getJSONObject(x).getString("x")),
+                                ((Double) objects.getJSONObject(x).getDouble("x")).floatValue(),
+                                ((Double) objects.getJSONObject(x).getDouble("y")).floatValue(),
+                                ((Double) objects.getJSONObject(x).getDouble("angle")).floatValue(),
+                                ((Double) objects.getJSONObject(x).getDouble("dirX")).floatValue(),
+                                ((Double) objects.getJSONObject(x).getDouble("dirY")).floatValue()
+                        );
+                        Gdx.app.log("Bullet", "getted of");
+                        GameScreen.otherBulletPlayers.put(objects.getJSONObject(x).getString("id"), b);
                     }
                 } catch (JSONException e) {
                 }
@@ -193,5 +237,9 @@ public class AtomicSpaceWarGame extends Game {
 
     public Xbox getBtnsPad() {
         return btnsPad;
+    }
+
+    public Socket getSocket() {
+        return socket;
     }
 }

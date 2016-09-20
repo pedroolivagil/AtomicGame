@@ -4,259 +4,322 @@ filter: Linear,Linear
 repeat: none
 Bealus
   rotate: false
-  xy: 405, 174
+  xy: 403, 165
   size: 93, 84
   orig: 93, 84
   offset: 0, 0
   index: -1
 Boeing X-35
   rotate: false
-  xy: 327, 88
+  xy: 411, 251
   size: 97, 84
   orig: 97, 84
   offset: 0, 0
   index: -1
 Cluster
   rotate: false
-  xy: 2, 2
+  xy: 2, 401
   size: 104, 84
   orig: 104, 84
   offset: 0, 0
   index: -1
 Dark Cloud
   rotate: false
-  xy: 2, 88
+  xy: 191, 112
   size: 104, 84
   orig: 104, 84
   offset: 0, 0
   index: -1
 Discovery
   rotate: false
-  xy: 108, 2
+  xy: 191, 198
   size: 104, 84
   orig: 104, 84
   offset: 0, 0
   index: -1
 Galileo
   rotate: false
-  xy: 214, 2
+  xy: 188, 284
   size: 103, 84
   orig: 103, 84
   offset: 0, 0
   index: -1
 Genesis
   rotate: false
-  xy: 2, 174
+  xy: 297, 165
   size: 104, 84
   orig: 104, 84
   offset: 0, 0
   index: -1
 Hermes
   rotate: false
-  xy: 705, 79
+  xy: 498, 165
   size: 97, 84
   orig: 97, 84
   offset: 0, 0
   index: -1
 Hopper
   rotate: false
-  xy: 800, 165
+  xy: 104, 248
   size: 82, 84
   orig: 82, 84
   offset: 0, 0
   index: -1
 Imperial
   rotate: false
-  xy: 690, 251
+  xy: 108, 414
   size: 82, 84
   orig: 82, 84
   offset: 0, 0
   index: -1
 Orion
   rotate: false
-  xy: 804, 79
+  xy: 597, 165
   size: 97, 84
   orig: 97, 84
   offset: 0, 0
   index: -1
 RST-120
   rotate: false
-  xy: 306, 174
+  xy: 510, 251
   size: 97, 84
   orig: 97, 84
   offset: 0, 0
   index: -1
 Raknarok
   rotate: false
-  xy: 108, 88
+  xy: 293, 328
   size: 103, 84
   orig: 103, 84
   offset: 0, 0
   index: -1
 Skylab
   rotate: false
-  xy: 500, 172
+  xy: 609, 251
   size: 93, 84
   orig: 93, 84
   offset: 0, 0
   index: -1
 Smart-X
   rotate: false
-  xy: 108, 174
+  xy: 558, 79
   size: 103, 84
   orig: 103, 84
   offset: 0, 0
   index: -1
 Soyuz Spacecraft
   rotate: false
-  xy: 319, 2
+  xy: 663, 79
   size: 103, 84
   orig: 103, 84
   offset: 0, 0
   index: -1
 State-14
   rotate: false
-  xy: 774, 251
+  xy: 192, 370
   size: 82, 84
   orig: 82, 84
   offset: 0, 0
   index: -1
 Surveyor
   rotate: false
-  xy: 858, 251
+  xy: 276, 414
   size: 82, 84
   orig: 82, 84
   offset: 0, 0
   index: -1
 Valquiria
   rotate: false
-  xy: 595, 172
+  xy: 703, 338
   size: 93, 84
   orig: 93, 84
   offset: 0, 0
   index: -1
 X-256
   rotate: false
-  xy: 705, 165
+  xy: 798, 354
   size: 93, 84
   orig: 93, 84
   offset: 0, 0
   index: -1
 bullet
   rotate: false
-  xy: 903, 79
+  xy: 360, 414
   size: 12, 94
   orig: 12, 94
   offset: 0, 0
   index: -1
 playerShip1_blue
   rotate: false
-  xy: 538, 2
+  xy: 418, 88
   size: 99, 75
   orig: 99, 75
   offset: 0, 0
   index: -1
 playerShip1_green
   rotate: false
-  xy: 639, 2
+  xy: 501, 337
   size: 99, 75
   orig: 99, 75
   offset: 0, 0
   index: -1
 playerShip1_orange
   rotate: false
-  xy: 740, 2
+  xy: 602, 337
   size: 99, 75
   orig: 99, 75
   offset: 0, 0
   index: -1
 playerShip1_red
   rotate: false
-  xy: 841, 2
+  xy: 696, 168
   size: 99, 75
   orig: 99, 75
   offset: 0, 0
   index: -1
 playerShip2_blue
   rotate: false
-  xy: 2, 260
+  xy: 558, 2
   size: 112, 75
   orig: 112, 75
   offset: 0, 0
   index: -1
 playerShip2_green
   rotate: false
-  xy: 116, 260
+  xy: 672, 2
   size: 112, 75
   orig: 112, 75
   offset: 0, 0
   index: -1
 playerShip2_orange
   rotate: false
-  xy: 213, 88
+  xy: 304, 88
   size: 112, 75
   orig: 112, 75
   offset: 0, 0
   index: -1
 playerShip2_red
   rotate: false
-  xy: 424, 2
+  xy: 297, 251
   size: 112, 75
   orig: 112, 75
   offset: 0, 0
   index: -1
 playerShip3_blue
   rotate: false
-  xy: 230, 260
+  xy: 398, 413
   size: 98, 75
   orig: 98, 75
   offset: 0, 0
   index: -1
 playerShip3_green
   rotate: false
-  xy: 330, 260
+  xy: 498, 414
   size: 98, 75
   orig: 98, 75
   offset: 0, 0
   index: -1
 playerShip3_orange
   rotate: false
-  xy: 430, 260
+  xy: 598, 414
   size: 98, 75
   orig: 98, 75
   offset: 0, 0
   index: -1
 playerShip3_red
   rotate: false
-  xy: 530, 258
+  xy: 698, 424
   size: 98, 75
   orig: 98, 75
   offset: 0, 0
   index: -1
+spaceShips
+  rotate: false
+  xy: 786, 2
+  size: 106, 80
+  orig: 106, 80
+  offset: 0, 0
+  index: 1
+spaceShips
+  rotate: false
+  xy: 398, 337
+  size: 101, 74
+  orig: 101, 74
+  offset: 0, 0
+  index: 2
+spaceShips
+  rotate: false
+  xy: 2, 305
+  size: 100, 94
+  orig: 100, 94
+  offset: 0, 0
+  index: 3
+spaceShips
+  rotate: false
+  xy: 176, 2
+  size: 126, 108
+  orig: 126, 108
+  offset: 0, 0
+  index: 4
+spaceShips
+  rotate: false
+  xy: 304, 2
+  size: 136, 84
+  orig: 136, 84
+  offset: 0, 0
+  index: 5
+spaceShips
+  rotate: false
+  xy: 2, 155
+  size: 94, 148
+  orig: 94, 148
+  offset: 0, 0
+  index: 6
+spaceShips
+  rotate: false
+  xy: 2, 2
+  size: 172, 151
+  orig: 172, 151
+  offset: 0, 0
+  index: 7
+spaceShips
+  rotate: false
+  xy: 768, 84
+  size: 100, 82
+  orig: 100, 82
+  offset: 0, 0
+  index: 8
+spaceShips
+  rotate: false
+  xy: 442, 2
+  size: 114, 82
+  orig: 114, 82
+  offset: 0, 0
+  index: 9
 ufoBlue
   rotate: false
-  xy: 213, 165
+  xy: 98, 155
   size: 91, 91
   orig: 91, 91
   offset: 0, 0
   index: -1
 ufoGreen
   rotate: false
-  xy: 426, 79
+  xy: 704, 245
   size: 91, 91
   orig: 91, 91
   offset: 0, 0
   index: -1
 ufoRed
   rotate: false
-  xy: 519, 79
+  xy: 797, 168
   size: 91, 91
   orig: 91, 91
   offset: 0, 0
   index: -1
 ufoYellow
   rotate: false
-  xy: 612, 79
+  xy: 798, 261
   size: 91, 91
   orig: 91, 91
   offset: 0, 0

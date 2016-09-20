@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import java.util.HashMap;
 
 import cat.olivadevelop.atomicspacewar.AtomicSpaceWarGame;
+import cat.olivadevelop.atomicspacewar.actors.Bullet;
 import cat.olivadevelop.atomicspacewar.actors.Player;
 import cat.olivadevelop.atomicspacewar.tools.ColorGame;
 import cat.olivadevelop.atomicspacewar.tools.GeneralScreen;
@@ -30,6 +31,7 @@ public class GameScreen extends GeneralScreen {
 
     public static Player player;
     public static HashMap<String, Player> otherPlayers = new HashMap<String, Player>();
+    public static HashMap<String, Bullet> otherBulletPlayers = new HashMap<String, Bullet>();
     private boolean initPlayer;
     private boolean playerNotification;
     private Rectangle[] boundsRectangle;
@@ -41,10 +43,10 @@ public class GameScreen extends GeneralScreen {
         this.initPlayer = initPlayer;
         this.playerNotification = playerNotification;
         boundsRectangle = new Rectangle[]{
-                new Rectangle(0, 0, 1, tiledMapH),
-                new Rectangle(0, tiledMapH, tiledMapW, 1),
-                new Rectangle(tiledMapW, tiledMapH, 1, -tiledMapH),
-                new Rectangle(tiledMapW, 0, -tiledMapW, 1)
+                new Rectangle(0, 0, 10, tiledMapH),
+                new Rectangle(0, tiledMapH, tiledMapW, 10),
+                new Rectangle(tiledMapW, tiledMapH, 10, -tiledMapH),
+                new Rectangle(tiledMapW, 0, -tiledMapW, 10)
         };
         shape = new ShapeRenderer();
         player = new Player(this, getPlayersTexture("playerShip3_blue"));
@@ -78,7 +80,7 @@ public class GameScreen extends GeneralScreen {
         // Bounds Rectangle
 
         shape.setProjectionMatrix(getStage().getBatch().getProjectionMatrix());
-        shape.begin(ShapeRenderer.ShapeType.Line);
+        shape.begin(ShapeRenderer.ShapeType.Filled);
         shape.setColor(ColorGame.DARK_BLUE);
         shape.rect(boundsRectangle[0].getX(), boundsRectangle[0].getY(), boundsRectangle[0].getWidth(), boundsRectangle[0].getHeight());
         shape.rect(boundsRectangle[1].getX(), boundsRectangle[1].getY(), boundsRectangle[1].getWidth(), boundsRectangle[1].getHeight());
@@ -88,6 +90,9 @@ public class GameScreen extends GeneralScreen {
         // important for actors on top
 
         for (HashMap.Entry<String, Player> entry : otherPlayers.entrySet()) {
+            getStage().addActor(entry.getValue());
+        }
+        for (HashMap.Entry<String, Bullet> entry : otherBulletPlayers.entrySet()) {
             getStage().addActor(entry.getValue());
         }
         if (initPlayer) {
