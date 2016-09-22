@@ -31,7 +31,7 @@ public class GameScreen extends GeneralScreen {
 
     public static Player player;
     public static HashMap<String, Player> otherPlayers = new HashMap<String, Player>();
-    public static HashMap<String, Bullet> otherBulletPlayers = new HashMap<String, Bullet>();
+    public static HashMap<String, HashMap<String, Bullet>> otherBulletPlayers = new HashMap<String, HashMap<String, Bullet>>();
     private boolean initPlayer;
     private boolean playerNotification;
     private Rectangle[] boundsRectangle;
@@ -91,9 +91,13 @@ public class GameScreen extends GeneralScreen {
 
         for (HashMap.Entry<String, Player> entry : otherPlayers.entrySet()) {
             getStage().addActor(entry.getValue());
+            entry.getValue().toFront();
         }
-        for (HashMap.Entry<String, Bullet> entry : otherBulletPlayers.entrySet()) {
-            getStage().addActor(entry.getValue());
+        for (HashMap.Entry<String, HashMap<String, Bullet>> entry : otherBulletPlayers.entrySet()) {
+            HashMap<String, Bullet> hmap = entry.getValue();
+            for (HashMap.Entry<String, Bullet> x : hmap.entrySet()) {
+                getStage().addActor(x.getValue());
+            }
         }
         if (initPlayer) {
             getStage().addActor(player);
@@ -168,7 +172,7 @@ public class GameScreen extends GeneralScreen {
     public boolean buttonUp(Controller controller, int buttonCode) {
         if (buttonCode == getGame().getBtnsPad().getKeys("BUTTON_A")) {
             //if (player.isMoving()) {
-                player.shoot();
+            player.shoot();
             //}
         }
         if (buttonCode == getGame().getBtnsPad().getKeys("BUTTON_LB")) {

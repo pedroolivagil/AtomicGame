@@ -3,9 +3,11 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var players = [];
 var bullets = [];
+var port = process.env.PORT || 8080;
 
-server.listen(8080,function(){
-    console.log("Server is running...");
+//server.listen(8080,function(){
+server.listen(port,function(){
+    console.log("Server is running on port: " + port);
 });
 
 io.on('connection',function(socket){

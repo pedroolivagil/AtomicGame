@@ -2,10 +2,13 @@ package cat.olivadevelop.atomicspacewar;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Timer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import cat.olivadevelop.atomicspacewar.actors.Bullet;
 import cat.olivadevelop.atomicspacewar.actors.Player;
@@ -67,20 +70,24 @@ public class AtomicSpaceWarGame extends Game {
 
     private void connectSocket() {
         try {
-            socket = IO.socket("http://localhost:8080");
-            //socket = IO.socket("hl219.dinaserver.com:8080");
+            //socket = IO.socket("http://localhost:8080");
+            //socket = IO.socket("http://atomicspacewar-90572.onmodulus.net/");
+            socket = IO.socket("http://atomicspacewar.herokuapp.com");
             socket.connect();
         } catch (Exception e) {
             Gdx.app.log("Socket", "Error-> " + e);
         }
     }
 
+    static HashMap<String, Bullet> hmapB = new HashMap<String, Bullet>();
+
     private void configSocketEvent() {
+        initPlayer = true;
+        hmapB = new HashMap<String, Bullet>();
         socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 Gdx.app.log("socketIO", "Connected");
-                initPlayer = true;
             }
         }).on("socketID", new Emitter.Listener() {
             @Override
@@ -146,22 +153,28 @@ public class AtomicSpaceWarGame extends Game {
         }).on("playerShoot", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                /* Movemos los actores de otros players cuando se detecte movimiento */
+                /* Movemos los disparos de otros players */
                 JSONObject data = (JSONObject) args[0];
                 try {
                     String playerID = data.getString("id");
-                    GameScreen.otherBulletPlayers.put(
-                            playerID, new Bullet(
-                                    _gameScreen,
-                                    ColorGame.valueOf(data.getString("x")),
-                                    ((Double) data.getDouble("x")).floatValue(),
-                                    ((Double) data.getDouble("y")).floatValue(),
-                                    ((Double) data.getDouble("angle")).floatValue(),
-                                    ((Double) data.getDouble("dirX")).floatValue(),
-                                    ((Double) data.getDouble("dirY")).floatValue()
-                            )
+                    final Bullet b = new Bullet(
+                            _gameScreen,
+                            ColorGame.GREEN_POINTS,
+                            ((Double) data.getDouble("x")).floatValue() + GameScreen.otherPlayers.get(playerID).getWidth() / 2,
+                            ((Double) data.getDouble("y")).floatValue() + GameScreen.otherPlayers.get(playerID).getHeight() / 2,
+                            ((Double) data.getDouble("angle")).floatValue(),
+                            ((Double) data.getDouble("dirX")).floatValue(),
+                            ((Double) data.getDouble("dirY")).floatValue()
                     );
-                    Gdx.app.log("Bullet", "ADD");
+                    if (!b.isSpeedCorrect(
+                            ((Double) data.getDouble("dirX")).floatValue(),
+                            ((Double) data.getDouble("dirX")).floatValue(),
+                            b.getSpeed(),
+                            Gdx.graphics.getDeltaTime())) {
+                        hmapB.put("", b);
+                        GameScreen.otherBulletPlayers.put(playerID, hmapB);
+                        Gdx.app.log("Bullet", "ADD");
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Gdx.app.log("SocketIO", "Error getting playerID; moved");
@@ -192,7 +205,7 @@ public class AtomicSpaceWarGame extends Game {
                 try {
                     for (int x = 0; x < objects.length(); x++) {
                         Bullet b = new Bullet(_gameScreen,
-                                ColorGame.valueOf(objects.getJSONObject(x).getString("x")),
+                                ColorGame.GREEN_POINTS,
                                 ((Double) objects.getJSONObject(x).getDouble("x")).floatValue(),
                                 ((Double) objects.getJSONObject(x).getDouble("y")).floatValue(),
                                 ((Double) objects.getJSONObject(x).getDouble("angle")).floatValue(),
@@ -200,7 +213,7 @@ public class AtomicSpaceWarGame extends Game {
                                 ((Double) objects.getJSONObject(x).getDouble("dirY")).floatValue()
                         );
                         Gdx.app.log("Bullet", "getted of");
-                        GameScreen.otherBulletPlayers.put(objects.getJSONObject(x).getString("id"), b);
+                        //GameScreen.otherBulletPlayers.put(objects.getJSONObject(x).getString("id"), b);
                     }
                 } catch (JSONException e) {
                 }

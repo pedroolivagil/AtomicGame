@@ -1,7 +1,9 @@
 package cat.olivadevelop.atomicspacewar.actors;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Timer;
 
 import cat.olivadevelop.atomicspacewar.tools.GameActor;
@@ -27,22 +29,40 @@ public class Bullet extends GameActor {
         setScale(.5f);
         this.dirX = dirX;
         this.dirY = dirY;
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                remove();
-            }
-        }, 10f);
+        timerRemove();
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        if ((dirX * speed * delta) == 0.0 && (dirY * speed * delta) == 0.0) {
+        if (isSpeedCorrect(dirX, dirY, speed, delta)) {
             remove();
         }
         //Gdx.app.log("SPEED", "X->" + (dirX * speed * delta) + "; Y->" + (dirY * speed * delta));
         //Gdx.app.log("SPEED", "Total->" + ((dirX * speed * delta) + (dirY * speed * delta)));
         setPosition(getX() + dirX * speed * delta, getY() + dirY * speed * delta);
+    }
+
+    public boolean isSpeedCorrect(float x, float y, float s, float delta) {
+        return (x * s * delta) == 0.0 && (y * s * delta) == 0.0;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void timerRemove() {
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                Gdx.app.log("Remove Bullet", "True");
+                addAction(
+                        Actions.parallel(
+                                Actions.alpha(0f, .3f),
+                                Actions.delay(1, Actions.removeActor())
+                        )
+                );
+            }
+        }, 10f);
     }
 }
