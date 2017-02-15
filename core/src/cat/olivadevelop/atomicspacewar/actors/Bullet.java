@@ -2,7 +2,7 @@ package cat.olivadevelop.atomicspacewar.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Timer;
 
@@ -19,6 +19,7 @@ public class Bullet extends GameActor {
     private final float dirY;
     private final float dirX;
     private float speed;
+    public Polygon bulletPolygon;
 
     public Bullet(GeneralScreen screen, Color color, float x, float y, float angle, float dirX, float dirY) {
         super(getPlayersTexture("bullet"));
@@ -30,6 +31,15 @@ public class Bullet extends GameActor {
         this.dirX = dirX;
         this.dirY = dirY;
         timerRemove();
+        area = new float[]{
+                getX(), getY(),
+                getX(), getY() + (getHeight() * getScaleY()),
+                getX() + (getWidth() * getScaleX()), getY() + (getHeight() * getScaleY()),
+                getX() + (getWidth() * getScaleX()), getY()
+        };
+        bulletPolygon = new Polygon(area);
+        bulletPolygon.setPosition(getX(),getY());
+        bulletPolygon.setRotation(angle);
     }
 
     @Override
@@ -41,6 +51,11 @@ public class Bullet extends GameActor {
         //Gdx.app.log("SPEED", "X->" + (dirX * speed * delta) + "; Y->" + (dirY * speed * delta));
         //Gdx.app.log("SPEED", "Total->" + ((dirX * speed * delta) + (dirY * speed * delta)));
         setPosition(getX() + dirX * speed * delta, getY() + dirY * speed * delta);
+        movePolygon();
+    }
+
+    public void movePolygon() {
+        bulletPolygon.setPosition(getX(), getY());
     }
 
     public boolean isSpeedCorrect(float x, float y, float s, float delta) {

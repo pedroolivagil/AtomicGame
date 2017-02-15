@@ -1,7 +1,6 @@
 package cat.olivadevelop.atomicspacewar.tools;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
@@ -17,8 +16,10 @@ public class GameActor extends ImageGame implements Disposable {
 
     public boolean alive;
     public Polygon polygon;
-    //public ShapeRenderer shape;
     private Vector2 previousPosition;
+    private int energyFixed;
+    private int currentEnergy;
+    private TextureRegion tRegion;
     public float[] area = new float[]{
             getX(), getY(),
             getX(), getY() + (getHeight() * getScaleY()),
@@ -28,25 +29,31 @@ public class GameActor extends ImageGame implements Disposable {
 
     public GameActor(TextureRegion tRegion) {
         super(tRegion);
+        this.tRegion = tRegion;
         setWidth(tRegion.getRegionWidth());
         setHeight(tRegion.getRegionHeight());
         setOrigin(getWidth() / 2, getHeight() / 2);
         polygon = new Polygon(area);
         polygon.setOrigin(getWidth() / 2, getHeight() / 2);
-        //shape = new ShapeRenderer();
         previousPosition = new Vector2(getX(), getY());
+        energyFixed = 1;
+        currentEnergy = energyFixed;
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-        /*batch.end();
-        shape.setProjectionMatrix(batch.getProjectionMatrix());
-        shape.begin(ShapeRenderer.ShapeType.Line);
-        shape.setColor(ColorGame.RED);
-        shape.polygon(polygon.getTransformedVertices());
-        shape.end();
-        batch.begin();*/
+    public void setEnergyFixed(int energyFixed) {
+        this.energyFixed = energyFixed;
+    }
+
+    public int getEnergyFixed() {
+        return energyFixed;
+    }
+
+    public int getCurrentEnergy() {
+        return currentEnergy;
+    }
+
+    public void setCurrentEnergy(int currentEnergy) {
+        this.currentEnergy = currentEnergy;
     }
 
     @Override
@@ -71,10 +78,16 @@ public class GameActor extends ImageGame implements Disposable {
     public void death() {
         alive = false;
         clearActions();
+        drop();
+        remove();
     }
 
     public void kicked(int damage) {
+        setCurrentEnergy(getCurrentEnergy() - damage);
         addAction(Actions.sequence(Actions.color(Color.RED, 0f), Actions.color(Color.WHITE, 1f)));
+        if (getCurrentEnergy() <= 0) {
+            death();
+        }
     }
 
     public void drop() {
@@ -89,6 +102,5 @@ public class GameActor extends ImageGame implements Disposable {
 
     @Override
     public void dispose() {
-        // shape.dispose();
     }
 }

@@ -2,7 +2,6 @@ package cat.olivadevelop.atomicspacewar;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Timer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,6 +17,7 @@ import cat.olivadevelop.atomicspacewar.screens.SplashScreen;
 import cat.olivadevelop.atomicspacewar.tools.ColorGame;
 import cat.olivadevelop.atomicspacewar.tools.GameLogic;
 import cat.olivadevelop.atomicspacewar.tools.GeneralScreen;
+import cat.olivadevelop.atomicspacewar.tools.Notification;
 import cat.olivadevelop.atomicspacewar.tools.PlayServices;
 import cat.olivadevelop.atomicspacewar.tools.ToastAction;
 import cat.olivadevelop.atomicspacewar.tools.Xbox;
@@ -26,6 +26,7 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 import static cat.olivadevelop.atomicspacewar.tools.GameLogic.getPlayersTexture;
+import static cat.olivadevelop.atomicspacewar.tools.GameLogic.getString;
 import static cat.olivadevelop.atomicspacewar.tools.GameLogic.load;
 
 public class AtomicSpaceWarGame extends Game {
@@ -35,7 +36,6 @@ public class AtomicSpaceWarGame extends Game {
     public GeneralScreen _mainMenuScreen;
     public GeneralScreen _gameScreen;
     public boolean initPlayer = false;
-    public boolean playerNotification = false;
     float timer;
     private PlayServices playServices;
     private ToastAction toast;
@@ -58,7 +58,7 @@ public class AtomicSpaceWarGame extends Game {
         btnsPad.init();
         _splashScreen = new SplashScreen(this);
         _mainMenuScreen = new MainMenuScreen(this);
-        _gameScreen = new GameScreen(this, initPlayer, playerNotification);
+        _gameScreen = new GameScreen(this, initPlayer);
         setScreen(_splashScreen);
     }
 
@@ -70,9 +70,8 @@ public class AtomicSpaceWarGame extends Game {
 
     private void connectSocket() {
         try {
-            //socket = IO.socket("http://localhost:8080");
-            //socket = IO.socket("http://atomicspacewar-90572.onmodulus.net/");
-            socket = IO.socket("http://atomicspacewar.herokuapp.com");
+            socket = IO.socket("http://localhost:8080");
+            //socket = IO.socket("http://atomicspacewar-90572.onmodulus.net/"); // for online
             socket.connect();
         } catch (Exception e) {
             Gdx.app.log("Socket", "Error-> " + e);
@@ -108,8 +107,8 @@ public class AtomicSpaceWarGame extends Game {
                 try {
                     String id = data.getString("id");
                     Gdx.app.log("SocketIO", "New Player connect: " + id);
-                    //getToast().show(getString("newPlayerConn"));
-                    playerNotification = true;
+                    //playerNotification = true;
+                    GameLogic.getNotificationManager().newAlert(getString("newPlayerConn"), Notification.NotificationType.INFO, 5);
                     GameScreen.otherPlayers.put(id, new Player(_gameScreen, getPlayersTexture("playerShip2_red")));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -122,9 +121,12 @@ public class AtomicSpaceWarGame extends Game {
                 JSONObject data = (JSONObject) args[0];
                 try {
                     String id = data.getString("id");
-                    Gdx.app.log("SocketIO", "Player disconnect: " + id);
-                    if (GameScreen.otherPlayers.get(id) != null) {
-                        GameScreen.otherPlayers.get(id).remove();
+                    Gdx.app.log("SocketIO", "Trying to disconnect the player (" + id + ") ....");
+                    if (!GameScreen.otherPlayers.get(id).toString().equals("")) {
+                        GameScreen.otherPlayers.get(id).death();
+                        GameScreen.otherPlayers.get(id).dispose();
+                        GameScreen.otherPlayers.remove(id);
+                        Gdx.app.log("SocketIO", "the player have been disconnected (" + id + ")");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -144,6 +146,7 @@ public class AtomicSpaceWarGame extends Game {
                     if (GameScreen.otherPlayers.get(playerID) != null) {
                         GameScreen.otherPlayers.get(playerID).setPosition(x.floatValue(), y.floatValue());
                         GameScreen.otherPlayers.get(playerID).setRotation(angle.floatValue());
+                        GameScreen.otherPlayers.get(playerID).polygon.setPosition(x.floatValue(), y.floatValue());
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -157,7 +160,7 @@ public class AtomicSpaceWarGame extends Game {
                 JSONObject data = (JSONObject) args[0];
                 try {
                     String playerID = data.getString("id");
-                    final Bullet b = new Bullet(
+                    Bullet b = new Bullet(
                             _gameScreen,
                             ColorGame.GREEN_POINTS,
                             ((Double) data.getDouble("x")).floatValue() + GameScreen.otherPlayers.get(playerID).getWidth() / 2,
@@ -171,7 +174,7 @@ public class AtomicSpaceWarGame extends Game {
                             ((Double) data.getDouble("dirX")).floatValue(),
                             b.getSpeed(),
                             Gdx.graphics.getDeltaTime())) {
-                        hmapB.put("", b);
+                        hmapB.put("bullet_" + hmapB.size(), b);
                         GameScreen.otherBulletPlayers.put(playerID, hmapB);
                         Gdx.app.log("Bullet", "ADD");
                     }

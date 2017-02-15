@@ -2,7 +2,6 @@ package cat.olivadevelop.atomicspacewar.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 
 import org.json.JSONException;
@@ -13,13 +12,15 @@ import cat.olivadevelop.atomicspacewar.tools.ColorGame;
 import cat.olivadevelop.atomicspacewar.tools.GameActor;
 import cat.olivadevelop.atomicspacewar.tools.GeneralScreen;
 
+import static cat.olivadevelop.atomicspacewar.tools.GameLogic.MARGIN;
+
 /**
  * Created by Oliva on 12/09/2016.
  */
 public class Player extends GameActor {
 
-    public final float SPEED_DEFAULT = 200;
-    public final float SPEED_FAST = 400;
+    public final float SPEED_DEFAULT = 150;
+    public final float SPEED_FAST = 300;
     private final GeneralScreen screen;
     public float dirX;
     public float dirY;
@@ -33,6 +34,8 @@ public class Player extends GameActor {
         this.screen = screen;
         dirX = 0;
         dirY = 0;
+        setEnergyFixed(6);
+        setCurrentEnergy(6);
         setWidth(tRegion.getRegionWidth());
         setHeight(tRegion.getRegionHeight());
         setSpeed(SPEED_DEFAULT);
@@ -44,6 +47,7 @@ public class Player extends GameActor {
     public void act(float delta) {
         super.act(delta);
         polygon.setPosition(getX(), getY());
+        move(delta);
     }
 
     public void move(float delta) {
@@ -71,8 +75,8 @@ public class Player extends GameActor {
     }
 
     public void appear() {
-        //setPosition(MathUtils.random(0, tiledMapW), MathUtils.random(0, tiledMapH));
-        setPosition(100, 100);
+        //setPosition(MathUtils.random(MARGIN, tiledMapW - (MARGIN * 2)), MathUtils.random(MARGIN, tiledMapH - (MARGIN * 2)));
+        setPosition(MARGIN + 100, MARGIN + 100);
         alive = true;
         moving = false;
     }
@@ -88,15 +92,15 @@ public class Player extends GameActor {
         if (canShoot) {
             //if (Math.abs(dirX * getSpeed() * Gdx.graphics.getDeltaTime()) > 0.7f || Math.abs(dirY * getSpeed() * Gdx.graphics.getDeltaTime()) > 0.7f) {
             //if () {
-                canShoot = false;
-                bullet = new Bullet(screen, ColorGame.RED, getX() + getWidth() / 2, getY() + getHeight() / 2, getRotation(), dirX, dirY);
-                screen.getStage().addActor(bullet);
-                toFront();
-                runTimer();
+            canShoot = false;
+            bullet = new Bullet(screen, ColorGame.RED, getX() + getWidth() / 2, getY() + getHeight() / 2, getRotation(), dirX, dirY);
+            screen.getStage().addActor(bullet);
+            toFront();
+            runTimer();
             //}
             JSONObject dataBullet = new JSONObject();
             try {
-                Gdx.app.log("Player Shoot","");
+                Gdx.app.log("Player Shoot", "");
                 dataBullet.put("x", GameScreen.player.getX());
                 dataBullet.put("y", GameScreen.player.getY());
                 dataBullet.put("color", ColorGame.GREEN_POINTS);

@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
-import com.badlogic.gdx.utils.Align;
 
 import cat.olivadevelop.atomicspacewar.screens.GameScreen;
 
@@ -21,10 +20,10 @@ public class Notification extends Dialog {
 
     LabelGame label;
     private float time;
+    private GeneralScreen screen;
 
     public Notification(String text, NotificationType type, float time) {
         super("", getSkinS());
-        this.time = time;
         setSize(700, 50);
         setKeepWithinStage(false);
         setBackground(
@@ -32,22 +31,18 @@ public class Notification extends Dialog {
                         new NinePatch(getUi("glassPanel_projection"), 10, 10, 10, 10)
                 )
         );
-        addAction(Actions.alpha(0f, 0f));
-        label = new LabelGame(text, getSkinS());
-        switch (type) {
-            case INFO:
-                label.setColor(ColorGame.WHITE);
-                break;
-            case SUCCESS:
-                label.setColor(ColorGame.GREEN_POINTS);
-                break;
-            case FAIL:
-                label.setColor(ColorGame.RED);
-                break;
-        }
-        clearChildren();
-        add(label).width(label.getWidth()).height(label.getHeight());
-        show();
+        //newAlert(text, type, time);
+    }
+
+    public Notification() {
+        super("", getSkinS());
+        setSize(700, 50);
+        setKeepWithinStage(false);
+        setBackground(
+                new NinePatchDrawable(
+                        new NinePatch(getUi("glassPanel_projection"), 10, 10, 10, 10)
+                )
+        );
     }
 
     @Override
@@ -72,7 +67,32 @@ public class Notification extends Dialog {
         addAction(action);
     }
 
+    public void setScreen(GeneralScreen screen) {
+        this.screen = screen;
+    }
+
     public enum NotificationType {
-        SUCCESS, FAIL, INFO;
+        SUCCESS, FAIL, INFO
+    }
+
+    public void newAlert(String text, NotificationType type, float time) {
+        screen.getStage().addActor(this);
+        this.time = time;
+        addAction(Actions.alpha(0f, 0f));
+        label = new LabelGame(text, getSkinS());
+        switch (type) {
+            case INFO:
+                label.setColor(ColorGame.WHITE);
+                break;
+            case SUCCESS:
+                label.setColor(ColorGame.GREEN_POINTS);
+                break;
+            case FAIL:
+                label.setColor(ColorGame.RED);
+                break;
+        }
+        clearChildren();
+        add(label).width(label.getWidth()).height(label.getHeight());
+        show();
     }
 }

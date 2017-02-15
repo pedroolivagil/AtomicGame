@@ -30,6 +30,8 @@ public abstract class GameLogic implements Disposable {
     public static final float VOLUME_5 = .5f;
     public static final int tiledMapH = 12800;
     public static final int tiledMapW = 12800;
+    public static final int MARGIN = 700;
+    public static final int BORDER_WIDTH = 3;
     private static Preferences prefs;
     // Bundle
     private static I18NBundle bundle;
@@ -50,6 +52,9 @@ public abstract class GameLogic implements Disposable {
     // Sounds
     // Enviroments
 
+    // Managers
+    private static Notification notificationManager;
+
     public static void loadUI() {
         // Textures
         ui = new TextureAtlas("textures/ui.atlas");
@@ -64,6 +69,7 @@ public abstract class GameLogic implements Disposable {
         }
         tiledMap = new TmxMapLoader().load("map/space_map.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        notificationManager = new Notification();
         getPrefs().flush();
     }
 
@@ -77,9 +83,11 @@ public abstract class GameLogic implements Disposable {
         skinL = new Skin(Gdx.files.internal("skin/L/uiskin.json"));
         skinXL = new Skin(Gdx.files.internal("skin/XL/uiskin.json"));
         app_asset = new TextureAtlas("textures/app.atlas");
-
-
         ColorGame.initColorGame();
+    }
+
+    public static Notification getNotificationManager() {
+        return notificationManager;
     }
 
     public static OrthogonalTiledMapRenderer getTiledMapRenderer() {
