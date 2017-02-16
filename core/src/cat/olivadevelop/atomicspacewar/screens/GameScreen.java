@@ -15,7 +15,6 @@ import cat.olivadevelop.atomicspacewar.AtomicSpaceWarGame;
 import cat.olivadevelop.atomicspacewar.actors.Bullet;
 import cat.olivadevelop.atomicspacewar.actors.HUD;
 import cat.olivadevelop.atomicspacewar.actors.Player;
-import cat.olivadevelop.atomicspacewar.tools.ColorGame;
 import cat.olivadevelop.atomicspacewar.tools.GeneralScreen;
 import cat.olivadevelop.atomicspacewar.tools.IntersectorGame;
 import cat.olivadevelop.atomicspacewar.tools.Notification;
@@ -99,11 +98,11 @@ public class GameScreen extends GeneralScreen {
             getStage().addActor(entry.getValue());
             entry.getValue().toFront();
 
-            shape.setProjectionMatrix(getStage().getBatch().getProjectionMatrix());
+            /*shape.setProjectionMatrix(getStage().getBatch().getProjectionMatrix());
             shape.begin(ShapeRenderer.ShapeType.Line);
             shape.setColor(ColorGame.RED);
             shape.polygon(entry.getValue().polygon.getTransformedVertices());
-            shape.end();
+            shape.end();*/
         }
         // bullets enemies
         for (HashMap.Entry<String, HashMap<String, Bullet>> entry : otherBulletPlayers.entrySet()) {
@@ -112,12 +111,13 @@ public class GameScreen extends GeneralScreen {
                 getStage().addActor(x.getValue());
                 //x.getValue().polygon.setPosition(x.getValue().getX(), x.getValue().getY());
                 x.getValue().bulletPolygon.setPosition(x.getValue().getX(), x.getValue().getY());
+                x.getValue().timerRemove();
 
-                shape.setProjectionMatrix(getStage().getBatch().getProjectionMatrix());
+               /* shape.setProjectionMatrix(getStage().getBatch().getProjectionMatrix());
                 shape.begin(ShapeRenderer.ShapeType.Line);
                 shape.setColor(ColorGame.YELLOW);
                 shape.polygon(x.getValue().bulletPolygon.getTransformedVertices());
-                shape.end();
+                shape.end();*/
             }
         }
         if (initPlayer) {
