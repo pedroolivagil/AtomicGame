@@ -1,6 +1,5 @@
 package cat.olivadevelop.atomicspacewar.actors;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -70,7 +69,6 @@ public class Bullet extends GameActor {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                Gdx.app.log("Remove Bullet", "True");
                 addAction(
                         Actions.parallel(
                                 Actions.alpha(0f, .3f),

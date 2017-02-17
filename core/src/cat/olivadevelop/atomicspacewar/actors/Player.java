@@ -26,8 +26,10 @@ public class Player extends GameActor {
     public float dirY;
     private float speed;
     private Bullet bullet;
-    boolean moving;
-    boolean canShoot;
+    private boolean moving;
+    private boolean canShoot;
+    private Fire motorFire;
+    private boolean fireInStage;
 
     public Player(GeneralScreen screen, TextureRegion tRegion) {
         super(tRegion);
@@ -35,19 +37,31 @@ public class Player extends GameActor {
         dirX = 0;
         dirY = 0;
         setEnergyFixed(6);
-        setCurrentEnergy(6);
+        setCurrentEnergy(3);
         setWidth(tRegion.getRegionWidth());
         setHeight(tRegion.getRegionHeight());
         setSpeed(SPEED_DEFAULT);
         appear();
         canShoot = true;
+        motorFire = new Fire(screen, getX(), getY(), 0);
+        fireInStage = false;
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
+        if (!fireInStage && this.screen != null && this.screen.getStage() != null && getMotorFire() != null) {
+            this.screen.getStage().addActor(getMotorFire());
+            fireInStage = true;
+        }
+        fireMove();
         polygon.setPosition(getX(), getY());
         move(delta);
+    }
+
+    private void fireMove() {
+        motorFire.setRotation(this.getRotation());
+        motorFire.setPosition(getX(),getY());
     }
 
     public void move(float delta) {
@@ -121,5 +135,9 @@ public class Player extends GameActor {
                 canShoot = true;
             }
         }, .2f);
+    }
+
+    public Fire getMotorFire() {
+        return motorFire;
     }
 }
